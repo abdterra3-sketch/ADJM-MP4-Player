@@ -1,0 +1,35 @@
+name: Build ADJM-MP4 Player
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Membangun Aplikasi
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Ambil Kode
+        uses: actions/checkout@v4
+
+      - name: ☕ Siapkan Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 🛠️ Izin Gradle
+        run: chmod +x gradlew
+
+      - name: 🔨 Bangun APK
+        run: ./gradlew assembleDebug
+
+      - name: 📤 Simpan APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ADJM-MP4-Player-v1.0
+          path: app/build/outputs/apk/debug/*.apk
+          
